@@ -8,6 +8,7 @@ namespace GrovePi
 {
     public enum Pin
     {
+        DigitalPin3 = 3,
         DigitalPin4 = 4
     }
 }
