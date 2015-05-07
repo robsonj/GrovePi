@@ -3,13 +3,20 @@ using Windows.Devices.I2c;
 
 namespace GrovePi
 {
+    public enum PinMode
+    {
+        Input = 0,
+        Output = 1
+    }
+
     public interface IGrovePi
     {
         string GetFirmwareVersion();
         byte DigitalRead(byte pin);
-        void DigitalWrite(byte pin);
+        void DigitalWrite(byte pin, byte value);
         int AnalogRead(byte pin);
         void AnalogWrite(byte pin);
+        void PinMode(byte pin, PinMode mode);
     }
 
 
@@ -20,6 +27,7 @@ namespace GrovePi
         private const byte DigitalWriteCommandAddress = 2;
         private const byte AnalogReadCommandAddress = 3;
         private const byte AnalogWriteCommandAddress = 4;
+        private const byte PinModeCommandAddress = 5;
         private const byte VersionCommandAddress = 8;
         private readonly I2cDevice _device;
 
@@ -47,9 +55,9 @@ namespace GrovePi
             return readBuffer[0];
         }
 
-        public void DigitalWrite(byte pin)
+        public void DigitalWrite(byte pin, byte value)
         {
-            var buffer = new[] {DigitalWriteCommandAddress, pin, Unused, Unused};
+            var buffer = new[] {DigitalWriteCommandAddress, pin, value, Unused};
             _device.Write(buffer);
         }
 
@@ -64,6 +72,12 @@ namespace GrovePi
         public void AnalogWrite(byte pin)
         {
             var buffer = new[] {AnalogWriteCommandAddress, pin, Unused, Unused};
+            _device.Write(buffer);
+        }
+
+        public void PinMode(byte pin, PinMode mode)
+        {
+            var buffer = new[] {PinModeCommandAddress, pin, (byte) mode, Unused};
             _device.Write(buffer);
         }
     }
