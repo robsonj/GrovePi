@@ -12,23 +12,21 @@ namespace GrovePi
     public interface IGrovePi
     {
         string GetFirmwareVersion();
-        byte DigitalRead(byte pin);
-        void DigitalWrite(byte pin, byte value);
-        int AnalogRead(byte pin);
-        void AnalogWrite(byte pin);
-        void PinMode(byte pin, PinMode mode);
+        byte DigitalRead(Pin pin);
+        void DigitalWrite(Pin pin, byte value);
+        int AnalogRead(Pin pin);
+        void AnalogWrite(Pin pin);
+        void PinMode(Pin pin, PinMode mode);
     }
 
+    public enum Pin
+    {
+        DigitalPin4 = 4
+    }
 
     internal sealed class GrovePi : IGrovePi
     {
         private const byte Unused = 0;
-        private const byte DigitalReadCommandAddress = 1;
-        private const byte DigitalWriteCommandAddress = 2;
-        private const byte AnalogReadCommandAddress = 3;
-        private const byte AnalogWriteCommandAddress = 4;
-        private const byte PinModeCommandAddress = 5;
-        private const byte VersionCommandAddress = 8;
         private readonly I2cDevice _device;
 
         internal GrovePi(I2cDevice device)
@@ -39,15 +37,15 @@ namespace GrovePi
 
         public string GetFirmwareVersion()
         {
-            var buffer = new[] {VersionCommandAddress, Unused, Unused, Unused};
+            var buffer = new[] {(byte) Command.Version, Unused, Unused, Unused};
             _device.Write(buffer);
             _device.Read(buffer);
             return $"{buffer[1]}.{buffer[2]}.{buffer[3]}";
         }
 
-        public byte DigitalRead(byte pin)
+        public byte DigitalRead(Pin pin)
         {
-            var buffer = new[] {DigitalReadCommandAddress, pin, Unused, Unused};
+            var buffer = new[] {(byte) Command.DigitalRead, (byte) pin, Unused, Unused};
             _device.Write(buffer);
 
             var readBuffer = new byte[1];
@@ -55,30 +53,40 @@ namespace GrovePi
             return readBuffer[0];
         }
 
-        public void DigitalWrite(byte pin, byte value)
+        public void DigitalWrite(Pin pin, byte value)
         {
-            var buffer = new[] {DigitalWriteCommandAddress, pin, value, Unused};
+            var buffer = new[] {(byte) Command.DigitalWrite, (byte) pin, value, Unused};
             _device.Write(buffer);
         }
 
-        public int AnalogRead(byte pin)
+        public int AnalogRead(Pin pin)
         {
-            var buffer = new[] {DigitalReadCommandAddress, AnalogReadCommandAddress, pin, Unused, Unused};
+            var buffer = new[] {(byte) Command.DigitalRead, (byte) Command.AnalogRead, (byte) pin, Unused, Unused};
             _device.Write(buffer);
             _device.Read(buffer);
             return buffer[1]*256 + buffer[2];
         }
 
-        public void AnalogWrite(byte pin)
+        public void AnalogWrite(Pin pin)
         {
-            var buffer = new[] {AnalogWriteCommandAddress, pin, Unused, Unused};
+            var buffer = new[] {(byte) Command.AnalogWrite, (byte) pin, Unused, Unused};
             _device.Write(buffer);
         }
 
-        public void PinMode(byte pin, PinMode mode)
+        public void PinMode(Pin pin, PinMode mode)
         {
-            var buffer = new[] {PinModeCommandAddress, pin, (byte) mode, Unused};
+            var buffer = new[] {(byte) Command.PinMode, (byte) pin, (byte) mode, Unused};
             _device.Write(buffer);
         }
+
+        private enum Command
+        {
+            DigitalRead = 1,
+            DigitalWrite = 2,
+            AnalogRead = 3,
+            AnalogWrite = 4,
+            PinMode = 5,
+            Version = 8
+        };
     }
 }
