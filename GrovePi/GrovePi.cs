@@ -5,13 +5,13 @@ namespace GrovePi
 {
     public interface IGrovePi
     {
-        string Version { get; }
+        string GetFirmwareVersion();
     }
 
 
     internal sealed class GrovePi : IGrovePi
     {
-        private const byte VersionCommandAddress = 0x08;
+        private const byte VersionCommandAddress = 8;
         private readonly I2cDevice _device;
 
         internal GrovePi(I2cDevice device)
@@ -20,15 +20,15 @@ namespace GrovePi
             _device = device;
         }
 
-        public string Version
+        /// <summary>
+        ///     Read the firmware version
+        /// </summary>
+        public string GetFirmwareVersion()
         {
-            get
-            {
-                var buffer = new byte[] {VersionCommandAddress, 0, 0, 0};
-                _device.Write(buffer);
-                _device.Read(buffer);
-                return $"{buffer[1]}.{buffer[2]}.{buffer[3]}";
-            }
+            var buffer = new byte[] {VersionCommandAddress, 0, 0, 0};
+            _device.Write(buffer);
+            _device.Read(buffer);
+            return $"{buffer[1]}.{buffer[2]}.{buffer[3]}";
         }
     }
 }

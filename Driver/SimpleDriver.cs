@@ -8,7 +8,7 @@ namespace Driver
         public void Run(IBackgroundTaskInstance taskInstance)
         {
             var grovePi = DeviceBuilder.BuildGrovePi();
-            var version = grovePi.Version;
+            var version = grovePi.GetFirmwareVersion();
         }
     }
 }
