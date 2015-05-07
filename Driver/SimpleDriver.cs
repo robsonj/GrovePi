@@ -9,6 +9,7 @@ namespace Driver
         {
             var grovePi = DeviceBuilder.BuildGrovePi();
             var version = grovePi.GetFirmwareVersion();
+            grovePi.DigitalWrite(2);
         }
     }
 }
