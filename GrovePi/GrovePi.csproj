@@ -44,6 +44,8 @@
   <ItemGroup>
     <Compile Include="DeviceBuilder.cs" />
     <Compile Include="GrovePi.cs" />
+    <Compile Include="Pin.cs" />
+    <Compile Include="PinMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

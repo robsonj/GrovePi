@@ -3,12 +3,6 @@ using Windows.Devices.I2c;
 
 namespace GrovePi
 {
-    public enum PinMode
-    {
-        Input = 0,
-        Output = 1
-    }
-
     public interface IGrovePi
     {
         string GetFirmwareVersion();
@@ -17,11 +11,6 @@ namespace GrovePi
         int AnalogRead(Pin pin);
         void AnalogWrite(Pin pin);
         void PinMode(Pin pin, PinMode mode);
-    }
-
-    public enum Pin
-    {
-        DigitalPin4 = 4
     }
 
     internal sealed class GrovePi : IGrovePi
