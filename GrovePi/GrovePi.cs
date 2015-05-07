@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Globalization;
-using Windows.ApplicationModel.Contacts;
 using Windows.Devices.I2c;
 
 namespace GrovePi
@@ -8,10 +6,10 @@ namespace GrovePi
     public interface IGrovePi
     {
         string GetFirmwareVersion();
-        byte[] DigitalRead(byte pin);
-        byte[] DigitalWrite(byte pin);
+        byte DigitalRead(byte pin);
+        void DigitalWrite(byte pin);
         int AnalogRead(byte pin);
-        byte[] AnalogWrite(byte pin);
+        void AnalogWrite(byte pin);
     }
 
 
@@ -23,7 +21,6 @@ namespace GrovePi
         private const byte AnalogReadCommandAddress = 3;
         private const byte AnalogWriteCommandAddress = 4;
         private const byte VersionCommandAddress = 8;
-
         private readonly I2cDevice _device;
 
         internal GrovePi(I2cDevice device)
@@ -32,45 +29,42 @@ namespace GrovePi
             _device = device;
         }
 
-        /// <summary>
-        ///     Read the firmware version
-        /// </summary>
         public string GetFirmwareVersion()
         {
-            var buffer = new[] {VersionCommandAddress, Unused, Unused, Unused };
+            var buffer = new[] {VersionCommandAddress, Unused, Unused, Unused};
             _device.Write(buffer);
             _device.Read(buffer);
             return $"{buffer[1]}.{buffer[2]}.{buffer[3]}";
         }
 
-        public byte[] DigitalRead(byte pin)
+        public byte DigitalRead(byte pin)
         {
-            var buffer = new[] { DigitalReadCommandAddress, pin, Unused, Unused };
+            var buffer = new[] {DigitalReadCommandAddress, pin, Unused, Unused};
             _device.Write(buffer);
-            _device.Read(buffer);
-            return buffer;
+
+            var readBuffer = new byte[1];
+            _device.Read(readBuffer);
+            return readBuffer[0];
         }
 
-        public byte[] DigitalWrite(byte pin)
+        public void DigitalWrite(byte pin)
         {
-            var buffer = new[] { DigitalWriteCommandAddress, pin, Unused, Unused };
+            var buffer = new[] {DigitalWriteCommandAddress, pin, Unused, Unused};
             _device.Write(buffer);
-            return buffer;
         }
 
         public int AnalogRead(byte pin)
         {
-            var buffer = new[] { DigitalReadCommandAddress, AnalogReadCommandAddress, pin, Unused, Unused };
+            var buffer = new[] {DigitalReadCommandAddress, AnalogReadCommandAddress, pin, Unused, Unused};
             _device.Write(buffer);
             _device.Read(buffer);
-            return buffer[1] * 256 + buffer[2];
+            return buffer[1]*256 + buffer[2];
         }
 
-        public byte[] AnalogWrite(byte pin)
+        public void AnalogWrite(byte pin)
         {
-            var buffer = new[] { AnalogWriteCommandAddress, pin, Unused, Unused };
+            var buffer = new[] {AnalogWriteCommandAddress, pin, Unused, Unused};
             _device.Write(buffer);
-            return buffer;
         }
     }
 }
