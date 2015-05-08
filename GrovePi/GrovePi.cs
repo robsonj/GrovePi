@@ -11,93 +11,63 @@ namespace GrovePi
         int AnalogRead(Pin pin);
         void AnalogWrite(Pin pin, byte value);
         void PinMode(Pin pin, PinMode mode);
-        int UltrasonicRead(Pin pin);
-        byte[] AccelerometerRead();
     }
 
     internal sealed class GrovePi : IGrovePi
     {
-        private const byte Unused = 0;
-        private readonly I2cDevice _device;
-
         internal GrovePi(I2cDevice device)
         {
             if (device == null) throw new ArgumentNullException(nameof(device));
-            _device = device;
+            DirectAccess = device;
         }
+
+        internal I2cDevice DirectAccess { get; }
 
         public string GetFirmwareVersion()
         {
-            var buffer = new[] { (byte)Command.Version, Unused, Unused, Unused };
-            _device.Write(buffer);
-            _device.Read(buffer);
+            var buffer = new byte[] {(byte) Command.Version, Constants.Unused, Constants.Unused, Constants.Unused};
+            DirectAccess.Write(buffer);
+            DirectAccess.Read(buffer);
             return $"{buffer[1]}.{buffer[2]}.{buffer[3]}";
         }
 
         public byte DigitalRead(Pin pin)
         {
-            var buffer = new[] { (byte)Command.DigitalRead, (byte)pin, Unused, Unused };
-            _device.Write(buffer);
+            var buffer = new byte[] {(byte) Command.DigitalRead, (byte) pin, Constants.Unused, Constants.Unused};
+            DirectAccess.Write(buffer);
 
             var readBuffer = new byte[1];
-            _device.Read(readBuffer);
+            DirectAccess.Read(readBuffer);
             return readBuffer[0];
         }
 
         public void DigitalWrite(Pin pin, byte value)
         {
-            var buffer = new[] { (byte)Command.DigitalWrite, (byte)pin, value, Unused };
-            _device.Write(buffer);
+            var buffer = new byte[] {(byte) Command.DigitalWrite, (byte) pin, value, Constants.Unused};
+            DirectAccess.Write(buffer);
         }
 
         public int AnalogRead(Pin pin)
         {
-            var buffer = new[] { (byte)Command.DigitalRead, (byte)Command.AnalogRead, (byte)pin, Unused, Unused };
-            _device.Write(buffer);
+            var buffer = new byte[]
+            {(byte) Command.DigitalRead, (byte) Command.AnalogRead, (byte) pin, Constants.Unused, Constants.Unused};
+            DirectAccess.Write(buffer);
 
             var readBuffer = new byte[1];
-            _device.Read(readBuffer);
-            return readBuffer[1] * 256 + readBuffer[2];
+            DirectAccess.Read(readBuffer);
+            return readBuffer[1]*256 + readBuffer[2];
         }
 
         public void AnalogWrite(Pin pin, byte value)
         {
-            var buffer = new[] { (byte)Command.AnalogWrite, (byte)pin, value, Unused };
-            _device.Write(buffer);
+            var buffer = new byte[] {(byte) Command.AnalogWrite, (byte) pin, value, Constants.Unused};
+            DirectAccess.Write(buffer);
         }
 
         public void PinMode(Pin pin, PinMode mode)
         {
-            var buffer = new[] { (byte)Command.PinMode, (byte)pin, (byte)mode, Unused };
-            _device.Write(buffer);
-        }
-
-        public int UltrasonicRead(Pin pin)
-        {
-            var buffer = new[] { (byte)Command.UltrasonicRead, (byte)pin, Unused, Unused };
-            _device.Write(buffer);
-
-            var readBuffer = new byte[1];
-            _device.Read(readBuffer);
-            return readBuffer[1] * 256 + readBuffer[2];
-        }
-
-        public byte[] AccelerometerRead()
-        {
-            var buffer = new[] { (byte)Command.AccelerometerRead, Unused, Unused, Unused };
-            _device.Write(buffer);
-
-            var readBuffer = new byte[1];
-            _device.Read(readBuffer);
-
-            if (readBuffer[1] > 32)
-                readBuffer[1] = (byte)-(readBuffer[1] - 224);
-            if (readBuffer[2] > 32)
-                readBuffer[2] = (byte)-(readBuffer[1] - 224);
-            if (readBuffer[3] > 32)
-                readBuffer[3] = (byte)-(readBuffer[1] - 224);
-
-            return readBuffer;
+            var buffer = new byte[] {(byte) Command.PinMode, (byte) pin, (byte) mode, Constants.Unused};
+            DirectAccess.Write(buffer);
         }
 
         private enum Command
@@ -107,9 +77,7 @@ namespace GrovePi
             AnalogRead = 3,
             AnalogWrite = 4,
             PinMode = 5,
-            UltrasonicRead = 7,
-            Version = 8,
-            AccelerometerRead = 20,
+            Version = 8
             //RtcGetTime = 30,
             //DhtProSensorTemp = 40,
             //LedBarInitialise = 50,
@@ -135,7 +103,6 @@ namespace GrovePi
             //ChainableRgbLedSetPattern = 93,
             //ChainableRgbLedSetModulo = 94,
             //ChainableRgbLedSetLevel = 95
-
         };
     }
 }
