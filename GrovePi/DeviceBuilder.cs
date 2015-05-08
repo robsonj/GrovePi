@@ -24,50 +24,48 @@ namespace GrovePi
 
         public static ILed BuildLed(Pin pin)
         {
-            var device = BuildGrovePi();
-            return new Led(device, pin);
+            return DoBuild(x => new Led(x, pin));
         }
 
         public static ITemperatureAndHumiditySensor BuildTemperatureAndHumiditySensor(Pin pin, Model model)
         {
-            var device = BuildGrovePi();
-            return new TemperatureAndHumiditySensor(device, pin, model);
+            return DoBuild(x => new TemperatureAndHumiditySensor(x, pin, model));
         }
 
         public static IUltrasonicRangerSensor BuildUltraSonicSensor(Pin pin)
         {
-            var device = BuildGrovePiImpl(GrovePiAddress);
-            return new UltrasonicRangerSensor(device, pin);
+            return DoBuild(x => new UltrasonicRangerSensor(x, pin));
         }
 
         public static IAccelerometerSensor BuildAccelerometer(Pin pin)
         {
-            var device = BuildGrovePiImpl(GrovePiAddress);
-            return new AccelerometerSensor(device, pin);
+            return DoBuild(x => new AccelerometerSensor(x, pin));
         }
 
-        public static IRtcSensor BuildRtc(Pin pin)
+        public static IRtcSensor BuildRtcSensor(Pin pin)
         {
-            var device = BuildGrovePiImpl(GrovePiAddress);
-            return new RtcSensor(device, pin);
-        }
-		
-		public static ILedBar BuildLedBarSensor(Pin pin)
-        {
-            var device = BuildGrovePiImpl(GrovePiAddress);
-            return new LedBar(device, pin);
+            return DoBuild(x => new RtcSensor(x, pin));
         }
 
-        private static IFourDigitDisplay FourDigitDisplaySensor(Pin pin)
+        public static ILedBar BuildLedBarSensor(Pin pin)
         {
-            var device = BuildGrovePiImpl(GrovePiAddress);
-            return new FourDigitDisplay(device, pin);
+            return DoBuild(x => new LedBar(x, pin));
+        }
+
+        public static IFourDigitDisplay BuildFourDigitDisplaySensor(Pin pin)
+        {
+            return DoBuild(x => new FourDigitDisplay(x, pin));
         }
 
         public static IChainableRgbLed ChainableRgbLed(Pin pin)
         {
+            return DoBuild(x => new ChainableRgbLed(x, pin));
+        }
+
+        private static TSensor DoBuild<TSensor>(Func<GrovePi, TSensor> factory)
+        {
             var device = BuildGrovePiImpl(GrovePiAddress);
-            return new ChainableRgbLed(device, pin);
+            return factory(device);
         }
 
         private static GrovePi BuildGrovePiImpl(int address)
