@@ -4,6 +4,11 @@ namespace GrovePi.Sensors
 {
     public interface ILedBarSensor
     {
+		void Initialise(Orientation orientation);
+        void SetOrientation(Orientation orientation);
+        void SetLevel(int level);
+        void SetLed(int level, int led, State state);
+        void ToggleLed(int led);
     }
 
     internal class LedBarSensor : ILedBarSensor
@@ -58,17 +63,17 @@ namespace GrovePi.Sensors
             var buffer = new byte[] { ToggleOneCommandAddress, (byte)_pin, (byte)led, Constants.Unused };
             _device.DirectAccess.Write(buffer);
         }
+    }
 
-        public enum Orientation
-        {
-            Red = 0,
-            Green = 1,
-        }
+    public enum Orientation
+    {
+        Red = 0,
+        Green = 1,
+    }
 
-        public enum State
-        {
-            On = 0,
-            Off = 1,
-        }
+    public enum State
+    {
+        On = 0,
+        Off = 1,
     }
 }

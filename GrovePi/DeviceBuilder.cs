@@ -51,6 +51,12 @@ namespace GrovePi
             var device = BuildGrovePiImpl(GrovePiAddress);
             return new RtcSensor(device, pin);
         }
+		
+		public static ILedBarSensor BuildLedBarSensor(Pin pin)
+        {
+            var device = BuildGrovePiImpl(GrovePiAddress);
+            return new LedBarSensor(device, pin);
+        }
 
         private static GrovePi BuildGrovePiImpl(int address)
         {
