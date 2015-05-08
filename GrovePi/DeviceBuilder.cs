@@ -46,6 +46,12 @@ namespace GrovePi
             return new AccelerometerSensor(device, pin);
         }
 
+        public static IRtcSensor BuildRtc(Pin pin)
+        {
+            var device = BuildGrovePiImpl(GrovePiAddress);
+            return new RtcSensor(device, pin);
+        }
+
         private static GrovePi BuildGrovePiImpl(int address)
         {
             if (null != _device)

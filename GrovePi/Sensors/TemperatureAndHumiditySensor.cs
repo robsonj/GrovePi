@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GrovePi
+namespace GrovePi.Sensors
 {
     public interface ITemperatureAndHumiditySensor
     {

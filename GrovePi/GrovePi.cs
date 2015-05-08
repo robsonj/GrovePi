@@ -11,6 +11,7 @@ namespace GrovePi
         int AnalogRead(Pin pin);
         void AnalogWrite(Pin pin, byte value);
         void PinMode(Pin pin, PinMode mode);
+        int RtcGetTime();
     }
 
     internal sealed class GrovePi : IGrovePi
@@ -70,6 +71,16 @@ namespace GrovePi
             DirectAccess.Write(buffer);
         }
 
+        public int RtcGetTime()
+        {
+            var buffer = new byte[] { (byte)Command.RtcGetTime, Constants.Unused, Constants.Unused, Constants.Unused };
+            DirectAccess.Write(buffer);
+
+            var readBuffer = new byte[1];
+            DirectAccess.Read(readBuffer);
+            return readBuffer[0];
+        }
+
         private enum Command
         {
             DigitalRead = 1,
@@ -77,8 +88,7 @@ namespace GrovePi
             AnalogRead = 3,
             AnalogWrite = 4,
             PinMode = 5,
-            Version = 8
-            //RtcGetTime = 30,
+            Version = 8,
             //DhtProSensorTemp = 40,
             //LedBarInitialise = 50,
             //LedBarOrientation = 51,
