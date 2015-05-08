@@ -21,10 +21,8 @@
         {
             var buffer = new byte[] {CommandAddress, (byte) _pin, Constants.Unused, Constants.Unused};
             _device.DirectAccess.Write(buffer);
-
-            var readBuffer = new byte[1];
-            _device.DirectAccess.Read(readBuffer);
-            return readBuffer[1]*256 + readBuffer[2];
+            _device.DirectAccess.Read(buffer);
+            return buffer[1]*256 + buffer[2];
         }
     }
 }
