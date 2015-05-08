@@ -2,7 +2,7 @@
 {
     public interface IUltrasonicRangerSensor
     {
-        int ReadDistance();
+        int MeasureInCentimeters();
     }
 
     internal class UltrasonicRangerSensor : IUltrasonicRangerSensor
@@ -17,7 +17,7 @@
             _pin = pin;
         }
 
-        public int ReadDistance()
+        public int MeasureInCentimeters()
         {
             var buffer = new byte[] {CommandAddress, (byte) _pin, Constants.Unused, Constants.Unused};
             _device.DirectAccess.Write(buffer);
