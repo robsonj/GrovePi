@@ -4,7 +4,7 @@ namespace GrovePi.Sensors
 {
     public interface ILedBar
     {
-		void Initialise(Orientation orientation);
+        void Initialize(Orientation orientation);
         void SetOrientation(Orientation orientation);
         void SetLevel(int level);
         void SetLed(int level, int led, State state);
@@ -31,35 +31,34 @@ namespace GrovePi.Sensors
             _pin = pin;
         }
 
-        public void Initialise(Orientation orientation)
+        public void Initialize(Orientation orientation)
         {
-            var buffer = new byte[] { InitialiseCommandAddress, (byte)_pin, (byte)orientation, Constants.Unused };
+            var buffer = new byte[] {InitialiseCommandAddress, (byte) _pin, (byte) orientation, Constants.Unused};
             _device.DirectAccess.Write(buffer);
         }
 
         public void SetOrientation(Orientation orientation)
         {
-            var buffer = new byte[] { OrientationCommandAddress, (byte)_pin, (byte)orientation, Constants.Unused };
+            var buffer = new byte[] {OrientationCommandAddress, (byte) _pin, (byte) orientation, Constants.Unused};
             _device.DirectAccess.Write(buffer);
         }
 
         public void SetLevel(int level)
         {
             level = Math.Min(level, 10);
-            var buffer = new byte[] { LevelCommandAddress, (byte)_pin, (byte)level, Constants.Unused };
+            var buffer = new byte[] {LevelCommandAddress, (byte) _pin, (byte) level, Constants.Unused};
             _device.DirectAccess.Write(buffer);
         }
 
-
         public void SetLed(int level, int led, State state)
         {
-            var buffer = new[] { SetOneCommandAddress, (byte)_pin, (byte)led, (byte)state };
+            var buffer = new[] {SetOneCommandAddress, (byte) _pin, (byte) led, (byte) state};
             _device.DirectAccess.Write(buffer);
         }
 
         public void ToggleLed(int led)
         {
-            var buffer = new byte[] { ToggleOneCommandAddress, (byte)_pin, (byte)led, Constants.Unused };
+            var buffer = new byte[] {ToggleOneCommandAddress, (byte) _pin, (byte) led, Constants.Unused};
             _device.DirectAccess.Write(buffer);
         }
     }
@@ -67,12 +66,12 @@ namespace GrovePi.Sensors
     public enum Orientation
     {
         RedToGreen = 0,
-        GreenToRed = 1,
+        GreenToRed = 1
     }
 
     public enum State
     {
         On = 0,
-        Off = 1,
+        Off = 1
     }
 }

@@ -4,6 +4,7 @@ namespace GrovePi.Sensors
 {
     public interface IRtcSensor
     {
+        byte[] Read();
     }
 
     internal class RtcSensor : IRtcSensor
@@ -23,11 +24,8 @@ namespace GrovePi.Sensors
         {
             var buffer = new byte[] { CommandAddress, (byte)_pin, Constants.Unused, Constants.Unused };
             _device.DirectAccess.Write(buffer);
-
-            var readBuffer = new byte[1];
-            _device.DirectAccess.Read(readBuffer);
-
-            return readBuffer;
+            _device.DirectAccess.Read(buffer);
+            return buffer;
         }
     }
 }
