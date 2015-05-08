@@ -2,7 +2,7 @@
 
 namespace GrovePi.Sensors
 {
-    public interface IFourDigitDisplaySensor
+    public interface IFourDigitDisplay
     {
         void Initialise();
         void SetBrightness(int brightness);
@@ -13,7 +13,7 @@ namespace GrovePi.Sensors
         void AllOff();
     }
 
-    public class FourDigitDisplaySensor : IFourDigitDisplaySensor
+    public class FourDigitDisplay : IFourDigitDisplay
     {
         private const byte InitialiseCommandAddress = 70;
         private const byte BrightnessCommandAddress = 71;
@@ -29,7 +29,7 @@ namespace GrovePi.Sensors
         private readonly GrovePi _device;
         private readonly Pin _pin;
 
-        internal FourDigitDisplaySensor(GrovePi device, Pin pin)
+        internal FourDigitDisplay(GrovePi device, Pin pin)
         {
             if (device == null) throw new ArgumentNullException(nameof(device));
             _device = device;

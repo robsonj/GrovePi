@@ -79,12 +79,6 @@ namespace GrovePi
             PinMode = 5,
             Version = 8,
             //DhtProSensorTemp = 40,
-            //StoreColor = 90,
-            //ChainableRgbLedInit = 91,
-            //ChainableRgbLedTest = 92,
-            //ChainableRgbLedSetPattern = 93,
-            //ChainableRgbLedSetModulo = 94,
-            //ChainableRgbLedSetLevel = 95
         };
     }
 }

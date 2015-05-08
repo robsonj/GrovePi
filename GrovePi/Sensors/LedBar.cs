@@ -2,7 +2,7 @@
 
 namespace GrovePi.Sensors
 {
-    public interface ILedBarSensor
+    public interface ILedBar
     {
 		void Initialise(Orientation orientation);
         void SetOrientation(Orientation orientation);
@@ -11,7 +11,7 @@ namespace GrovePi.Sensors
         void ToggleLed(int led);
     }
 
-    internal class LedBarSensor : ILedBarSensor
+    internal class LedBar : ILedBar
     {
         private const byte InitialiseCommandAddress = 50;
         private const byte OrientationCommandAddress = 51;
@@ -24,7 +24,7 @@ namespace GrovePi.Sensors
         private readonly GrovePi _device;
         private readonly Pin _pin;
 
-        internal LedBarSensor(GrovePi device, Pin pin)
+        internal LedBar(GrovePi device, Pin pin)
         {
             if (device == null) throw new ArgumentNullException(nameof(device));
             _device = device;
@@ -66,8 +66,8 @@ namespace GrovePi.Sensors
 
     public enum Orientation
     {
-        Red = 0,
-        Green = 1,
+        RedToGreen = 0,
+        GreenToRed = 1,
     }
 
     public enum State
