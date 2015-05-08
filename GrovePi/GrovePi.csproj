@@ -48,6 +48,7 @@
     <Compile Include="Pin.cs" />
     <Compile Include="PinMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TemperatureAndHumiditySensor.cs" />
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="WindowsIoT, Version=10.0.10069.0">

@@ -16,10 +16,16 @@ namespace GrovePi
             return BuildGrovePi(GrovePiAddress);
         }
 
-        public static ILed BuildLed(Pin ledPin)
+        public static ILed BuildLed(Pin pin)
         {
             var device = BuildGrovePi();
-            return new Led(device, ledPin);
+            return new Led(device, pin);
+        }
+
+        public static ITemperatureAndHumiditySensor BuildTemperatureAndHumiditySensor(Pin pin, Model model)
+        {
+            var device = BuildGrovePi();
+            return new TemperatureAndHumiditySensor(device, pin, model);
         }
 
         public static IGrovePi BuildGrovePi(int address)
