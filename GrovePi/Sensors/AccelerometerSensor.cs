@@ -4,6 +4,7 @@ namespace GrovePi.Sensors
 {
     public interface IAccelerometerSensor
     {
+        byte[] Read();
     }
 
     internal class AccelerometerSensor : IAccelerometerSensor
