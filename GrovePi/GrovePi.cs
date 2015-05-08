@@ -77,8 +77,7 @@ namespace GrovePi
             AnalogRead = 3,
             AnalogWrite = 4,
             PinMode = 5,
-            Version = 8
-            //RtcGetTime = 30,
+            Version = 8,
             //DhtProSensorTemp = 40,
             //LedBarInitialise = 50,
             //LedBarOrientation = 51,
