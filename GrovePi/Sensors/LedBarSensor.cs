@@ -13,7 +13,6 @@ namespace GrovePi.Sensors
 
     internal class LedBarSensor : ILedBarSensor
     {
-
         private const byte InitialiseCommandAddress = 50;
         private const byte OrientationCommandAddress = 51;
         private const byte LevelCommandAddress = 52;
