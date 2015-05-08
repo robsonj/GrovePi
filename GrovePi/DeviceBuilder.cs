@@ -58,6 +58,12 @@ namespace GrovePi
             return new LedBarSensor(device, pin);
         }
 
+        private static IFourDigitDisplaySensor FourDigitDisplaySensor(Pin pin)
+        {
+            var device = BuildGrovePiImpl(GrovePiAddress);
+            return new FourDigitDisplaySensor(device, pin);
+        }
+
         private static GrovePi BuildGrovePiImpl(int address)
         {
             if (null != _device)

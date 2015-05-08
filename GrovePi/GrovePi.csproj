@@ -50,6 +50,7 @@
     <Compile Include="PinMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sensors\AccelerometerSensor.cs" />
+    <Compile Include="Sensors\FourDigitDisplaySensor.cs" />
     <Compile Include="Sensors\LedBarSensor.cs" />
     <Compile Include="Sensors\RtcSensor.cs" />
     <Compile Include="Sensors\TemperatureAndHumiditySensor.cs" />
