@@ -11,7 +11,6 @@ namespace GrovePi
         int AnalogRead(Pin pin);
         void AnalogWrite(Pin pin, byte value);
         void PinMode(Pin pin, PinMode mode);
-        int RtcGetTime();
     }
 
     internal sealed class GrovePi : IGrovePi
