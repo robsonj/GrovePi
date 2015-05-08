@@ -71,16 +71,6 @@ namespace GrovePi
             DirectAccess.Write(buffer);
         }
 
-        public int RtcGetTime()
-        {
-            var buffer = new byte[] { (byte)Command.RtcGetTime, Constants.Unused, Constants.Unused, Constants.Unused };
-            DirectAccess.Write(buffer);
-
-            var readBuffer = new byte[1];
-            DirectAccess.Read(readBuffer);
-            return readBuffer[0];
-        }
-
         private enum Command
         {
             DigitalRead = 1,
