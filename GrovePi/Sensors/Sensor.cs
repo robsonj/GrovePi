@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GrovePi.Sensors
 {
-    public abstract class Sensor
+    public abstract class Sensor<TSensorType> where TSensorType : class
     {
         protected readonly IGrovePi Device;
         protected readonly Pin Pin;
@@ -19,12 +15,18 @@ namespace GrovePi.Sensors
             Pin = pin;
         }
 
-        public SensorStatus CurrentState => (SensorStatus)Device.DigitalRead(Pin);
+        public SensorStatus CurrentState => (SensorStatus) Device.DigitalRead(Pin);
+
+        public TSensorType ChangeState(SensorStatus newState)
+        {
+            Device.DigitalWrite(Pin, (byte) newState);
+            return this as TSensorType;
+        }
     }
 
     public enum SensorStatus
     {
         Off = 0,
-        On = 1,
+        On = 1
     }
 }

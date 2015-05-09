@@ -21,15 +21,15 @@ namespace Driver
                 .SensorValue();
             _deviceFactory
                 .BuildBuzzer(Pin.DigitalPin4)
-                .ChangeState(BuzzerStatus.On)
-                .ChangeState(BuzzerStatus.Off);
+                .ChangeState(SensorStatus.On)
+                .ChangeState(SensorStatus.Off);
             
 
             _deviceFactory
                 .BuildLed(Pin.DigitalPin4)
-                .ChangeState(LedStatus.On)
-                .ChangeState(LedStatus.Off)
-                .ChangeState(LedStatus.On);
+                .ChangeState(SensorStatus.On)
+                .ChangeState(SensorStatus.Off)
+                .ChangeState(SensorStatus.On);
         }
     }
 }
