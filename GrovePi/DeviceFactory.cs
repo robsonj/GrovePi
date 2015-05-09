@@ -64,10 +64,10 @@ namespace GrovePi
             return DoBuild(x => new Led(x, pin));
         }
 
-        //public IButtonSensor BuildButtonSensor(Pin pin)
-        //{
-        //    return DoBuild(x => new ButtonSensor(x, pin));
-        //}
+        public IButtonSensor BuildButtonSensor(Pin pin)
+        {
+            return DoBuild(x => new ButtonSensor(x, pin));
+        }
 
         public ITemperatureAndHumiditySensor BuildTemperatureAndHumiditySensor(Pin pin, Model model)
         {

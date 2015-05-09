@@ -23,13 +23,6 @@ namespace Driver
                 .BuildBuzzer(Pin.DigitalPin4)
                 .ChangeState(SensorStatus.On)
                 .ChangeState(SensorStatus.Off);
-            
-
-            _deviceFactory
-                .BuildLed(Pin.DigitalPin4)
-                .ChangeState(SensorStatus.On)
-                .ChangeState(SensorStatus.Off)
-                .ChangeState(SensorStatus.On);
         }
     }
 }
