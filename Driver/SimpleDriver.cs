@@ -1,35 +1,27 @@
-﻿using System;
-using System.Threading;
-using Windows.ApplicationModel.Background;
+﻿using Windows.ApplicationModel.Background;
 using GrovePi;
+using GrovePi.Sensors;
 
 namespace Driver
 {
     public sealed class SimpleDriver : IBackgroundTask
     {
+        private readonly IBuildGroveDevices _deviceFactory = DeviceFactory.Build;
+
         public void Run(IBackgroundTaskInstance taskInstance)
         {
-        }
+            var distance = _deviceFactory
+                .BuildUltraSonicSensor(Pin.DigitalPin2)
+                .MeasureInCentimeters();
+            var tempInCelcius = _deviceFactory
+                .BuildTemperatureAndHumiditySensor(Pin.DigitalPin3, Model.OnePointTwo)
+                .TemperatureInCelcius();
 
-        private static void LedBlink(ILed device, int durationInSeconds, int frequencyInMillseconds)
-        {
-            var autoEvent = new AutoResetEvent(false);
-            using (new Timer(x => OnTimer(device), null, 0, frequencyInMillseconds))
-            {
-                autoEvent.WaitOne(TimeSpan.FromSeconds(durationInSeconds));
-                device.ChangeState(LedStatus.Off);
-            }
-        }
-
-        private static void OnTimer(ILed device)
-        {
-            var result = device.CurrentState;
-            var newStatus = LedStatus.Off;
-            if (LedStatus.Off == result)
-            {
-                newStatus = LedStatus.On;
-            }
-            device.ChangeState(newStatus);
+            _deviceFactory
+                .BuildLed(Pin.DigitalPin4)
+                .ChangeState(LedStatus.On)
+                .ChangeState(LedStatus.Off)
+                .ChangeState(LedStatus.On);
         }
     }
 }

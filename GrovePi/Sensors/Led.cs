@@ -5,7 +5,7 @@ namespace GrovePi.Sensors
     public interface ILed
     {
         LedStatus CurrentState { get; }
-        void ChangeState(LedStatus newState);
+        ILed ChangeState(LedStatus newState);
     }
 
     public enum LedStatus
@@ -27,9 +27,10 @@ namespace GrovePi.Sensors
             _pin = pin;
         }
 
-        public void ChangeState(LedStatus newState)
+        public ILed ChangeState(LedStatus newState)
         {
             _device.DigitalWrite(_pin, (byte) newState);
+            return this;
         }
 
         public LedStatus CurrentState => (LedStatus) _device.DigitalRead(_pin);
