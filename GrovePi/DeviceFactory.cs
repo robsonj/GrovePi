@@ -33,10 +33,9 @@ namespace GrovePi
     {
         private const string I2CName = "I2C1"; /* For Raspberry Pi 2, use I2C1 */
         private const byte GrovePiAddress = 0x04;
-        private GrovePi _device;
-
         private const byte DisplayRgbI2CAddress = 0x62;
         private const byte DisplayTextI2CAddress = 0x3e;
+        private GrovePi _device;
         private RgbLcdDisplay _rgbLcdDisplay;
 
         public IGrovePi BuildGrovePi()
@@ -49,24 +48,9 @@ namespace GrovePi
             return BuildGrovePiImpl(address);
         }
 
-        public IRgbLcdDisplay RgbLcdDisplay(int rgbAddress, int textAddress)
-        {
-            return BuildRgbLcdDisplayImpl(rgbAddress, textAddress);
-        }
-
-        public IRgbLcdDisplay RgbLcdDisplay()
-        {
-            return BuildRgbLcdDisplayImpl(DisplayRgbI2CAddress, DisplayTextI2CAddress);
-        }
-
         public ILed BuildLed(Pin pin)
         {
             return DoBuild(x => new Led(x, pin));
-        }
-
-        public IButtonSensor BuildButtonSensor(Pin pin)
-        {
-            return DoBuild(x => new ButtonSensor(x, pin));
         }
 
         public ITemperatureAndHumiditySensor BuildTemperatureAndHumiditySensor(Pin pin, Model model)
@@ -119,6 +103,21 @@ namespace GrovePi
             return DoBuild(x => new LightSensor(x, pin));
         }
 
+        public IRgbLcdDisplay RgbLcdDisplay(int rgbAddress, int textAddress)
+        {
+            return BuildRgbLcdDisplayImpl(rgbAddress, textAddress);
+        }
+
+        public IRgbLcdDisplay RgbLcdDisplay()
+        {
+            return BuildRgbLcdDisplayImpl(DisplayRgbI2CAddress, DisplayTextI2CAddress);
+        }
+
+        public IButtonSensor BuildButtonSensor(Pin pin)
+        {
+            return DoBuild(x => new ButtonSensor(x, pin));
+        }
+
         private TSensor DoBuild<TSensor>(Func<GrovePi, TSensor> factory)
         {
             var device = BuildGrovePiImpl(GrovePiAddress);
@@ -138,13 +137,10 @@ namespace GrovePi
                 BusSpeed = I2cBusSpeed.StandardMode
             };
 
-            //Find the selector string for the I2C bus controller
-            var aqs = I2cDevice.GetDeviceSelector(I2CName);
-
             _device = Task.Run(async () =>
             {
-                //Find the I2C bus controller device with our selector string
-                var dis = await DeviceInformation.FindAllAsync(aqs);
+                var dis = await GetDeviceInfo();
+
                 // Create an I2cDevice with our selected bus controller and I2C settings
                 var device = await I2cDevice.FromIdAsync(dis[0].Id, settings);
                 return new GrovePi(device);
@@ -170,19 +166,25 @@ namespace GrovePi
                 BusSpeed = I2cBusSpeed.StandardMode
             };
 
-            //Find the selector string for the I2C bus controller
-            var aqs = I2cDevice.GetDeviceSelector(I2CName);
-
             _rgbLcdDisplay = Task.Run(async () =>
             {
-                //Find the I2C bus controller device with our selector string
-                var dis = await DeviceInformation.FindAllAsync(aqs);
+                var dis = await GetDeviceInfo();
+
                 // Create an I2cDevice with our selected bus controller and I2C settings
                 var rgbDevice = await I2cDevice.FromIdAsync(dis[0].Id, rgbConnectionSettings);
                 var textDevice = await I2cDevice.FromIdAsync(dis[0].Id, textConnectionSettings);
                 return new RgbLcdDisplay(rgbDevice, textDevice);
             }).Result;
             return _rgbLcdDisplay;
+        }
+
+        private static async Task<DeviceInformationCollection> GetDeviceInfo()
+        {
+            //Find the selector string for the I2C bus controller
+            var aqs = I2cDevice.GetDeviceSelector(I2CName);
+            //Find the I2C bus controller device with our selector string
+            var dis = await DeviceInformation.FindAllAsync(aqs);
+            return dis;
         }
     }
 }
