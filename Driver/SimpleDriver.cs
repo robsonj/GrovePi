@@ -10,13 +10,15 @@ namespace Driver
 
         public void Run(IBackgroundTaskInstance taskInstance)
         {
-            var distance = _deviceFactory
-                .BuildUltraSonicSensor(Pin.DigitalPin2)
-                .MeasureInCentimeters();
-            var tempInCelcius = _deviceFactory
-                .BuildTemperatureAndHumiditySensor(Pin.DigitalPin3, Model.OnePointTwo)
-                .TemperatureInCelcius();
+            //var distance = _deviceFactory
+            //    .BuildUltraSonicSensor(Pin.DigitalPin2)
+            //    .MeasureInCentimeters();
+            //var tempInCelcius = _deviceFactory
+            //    .BuildTemperatureAndHumiditySensor(Pin.DigitalPin3, Model.OnePointTwo)
+            //    .TemperatureInCelcius();
 
+            var level = _deviceFactory.BuildLightSensor(Pin.DigitalPin3)
+                .SensorValue();
             _deviceFactory
                 .BuildBuzzer(Pin.DigitalPin4)
                 .ChangeState(BuzzerStatus.On)

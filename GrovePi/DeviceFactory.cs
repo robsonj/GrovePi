@@ -26,6 +26,7 @@ namespace GrovePi
         IChainableRgbLed ChainableRgbLed(Pin pin);
         IRotaryAngleSensor BuildRotaryAngleSensor(Pin pin);
         IBuzzer BuildBuzzer(Pin pin);
+        ILightSensor BuildLightSensor(Pin pin);
     }
 
     internal class DeviceBuilder : IBuildGroveDevices
@@ -111,6 +112,11 @@ namespace GrovePi
         public IChainableRgbLed ChainableRgbLed(Pin pin)
         {
             return DoBuild(x => new ChainableRgbLed(x, pin));
+        }
+
+        public ILightSensor BuildLightSensor(Pin pin)
+        {
+            return DoBuild(x => new LightSensor(x, pin));
         }
 
         private TSensor DoBuild<TSensor>(Func<GrovePi, TSensor> factory)
