@@ -52,8 +52,10 @@ namespace GrovePi
             var buffer = new byte[]
             {(byte) Command.DigitalRead, (byte) Command.AnalogRead, (byte) pin, Constants.Unused, Constants.Unused};
             DirectAccess.Write(buffer);
-            DirectAccess.Read(buffer);
-            return buffer[1]*256 + buffer[2];
+
+            var readBuffer = new byte[1];
+            DirectAccess.Read(readBuffer);
+            return readBuffer[1]*256 + readBuffer[2];
         }
 
         public void AnalogWrite(Pin pin, byte value)
