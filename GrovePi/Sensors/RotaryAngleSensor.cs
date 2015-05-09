@@ -11,7 +11,6 @@ namespace GrovePi.Sensors
 
     public class RotaryAngleSensor : IRotaryAngleSensor
     {
-        private const int AdcVoltage = 5;
         private const int FullAngle = 300;
         private readonly GrovePi _device;
         private readonly Pin _pin;
@@ -31,12 +30,12 @@ namespace GrovePi.Sensors
 
         public double Voltage()
         {
-            return Math.Round(((float) SensorValue()*AdcVoltage/1023), 2);
+            return Math.Round(((float) SensorValue()*Constants.AdcVoltage/1023), 2);
         }
 
         public double Degrees()
         {
-            return Math.Round((Voltage()/FullAngle*255), 2);
+            return Math.Round((Voltage()*FullAngle)/Constants.GroveVcc, 2);
         }
 
         public int Brightness()
