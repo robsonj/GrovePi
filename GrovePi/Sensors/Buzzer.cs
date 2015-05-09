@@ -4,7 +4,7 @@ namespace GrovePi.Sensors
 {
     public interface IBuzzer
     {
-        BuzzerStatus CurrentState { get; }
+        SensorStatus CurrentState { get; }
         IBuzzer ChangeState(BuzzerStatus newState);
     }
 
@@ -14,25 +14,17 @@ namespace GrovePi.Sensors
         On = 1
     }
 
-    internal class Buzzer : IBuzzer
+    internal class Buzzer : Sensor, IBuzzer
     {
-        private readonly IGrovePi _device;
-        private readonly Pin _pin;
 
-        internal Buzzer(IGrovePi device, Pin pin)
+        internal Buzzer(IGrovePi device, Pin pin) : base(device,pin,PinMode.Output)
         {
-            if (device == null) throw new ArgumentNullException(nameof(device));
-            device.PinMode(_pin, PinMode.Output);
-            _device = device;
-            _pin = pin;
         }
 
         public IBuzzer ChangeState(BuzzerStatus newState)
         {
-            _device.DigitalWrite(_pin, (byte) newState);
+            Device.DigitalWrite(Pin, (byte) newState);
             return this;
         }
-
-        public BuzzerStatus CurrentState => (BuzzerStatus) _device.DigitalRead(_pin);
     }
 }

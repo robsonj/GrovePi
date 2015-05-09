@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
 using Windows.Devices.I2c;
+using GrovePi.I2CDevices;
 using GrovePi.Sensors;
 
 namespace GrovePi
@@ -33,6 +34,10 @@ namespace GrovePi
         private const byte GrovePiAddress = 0x04;
         private GrovePi _device;
 
+        private const byte DisplayRgbI2CAddress = 0x62;
+        private const byte DisplayTextI2CAddress = 0x3e;
+        private RgbLcdDisplay _rgbLcdDisplay;
+
         public IGrovePi BuildGrovePi()
         {
             return BuildGrovePiImpl(GrovePiAddress);
@@ -43,9 +48,24 @@ namespace GrovePi
             return BuildGrovePiImpl(address);
         }
 
+        public IRgbLcdDisplay RgbLcdDisplay(int rgbAddress, int textAddress)
+        {
+            return BuildRgbLcdDisplayImpl(rgbAddress, textAddress);
+        }
+
+        public IRgbLcdDisplay RgbLcdDisplay()
+        {
+            return BuildRgbLcdDisplayImpl(DisplayRgbI2CAddress, DisplayTextI2CAddress);
+        }
+
         public ILed BuildLed(Pin pin)
         {
             return DoBuild(x => new Led(x, pin));
+        }
+
+        public IButtonSensor BuildButtonSensor(Pin pin)
+        {
+            return DoBuild(x => new ButtonSensor(x, pin));
         }
 
         public ITemperatureAndHumiditySensor BuildTemperatureAndHumiditySensor(Pin pin, Model model)
@@ -124,6 +144,39 @@ namespace GrovePi
                 return new GrovePi(device);
             }).Result;
             return _device;
+        }
+
+        private RgbLcdDisplay BuildRgbLcdDisplayImpl(int rgbAddress, int textAddress)
+        {
+            if (null != _rgbLcdDisplay)
+            {
+                return _rgbLcdDisplay;
+            }
+
+            /* Initialize the I2C bus */
+            var rgbConnectionSettings = new I2cConnectionSettings(rgbAddress)
+            {
+                BusSpeed = I2cBusSpeed.StandardMode
+            };
+
+            var textConnectionSettings = new I2cConnectionSettings(textAddress)
+            {
+                BusSpeed = I2cBusSpeed.StandardMode
+            };
+
+            //Find the selector string for the I2C bus controller
+            var aqs = I2cDevice.GetDeviceSelector(I2CName);
+
+            _rgbLcdDisplay = Task.Run(async () =>
+            {
+                //Find the I2C bus controller device with our selector string
+                var dis = await DeviceInformation.FindAllAsync(aqs);
+                // Create an I2cDevice with our selected bus controller and I2C settings
+                var rgbDevice = await I2cDevice.FromIdAsync(dis[0].Id, rgbConnectionSettings);
+                var textDevice = await I2cDevice.FromIdAsync(dis[0].Id, textConnectionSettings);
+                return new RgbLcdDisplay(rgbDevice, textDevice);
+            }).Result;
+            return _rgbLcdDisplay;
         }
     }
 }
