@@ -5,7 +5,7 @@ namespace GrovePi.I2CDevices
 {
     public interface IRgbLcdDisplay
     {
-        IRgbLcdDisplay SetBacklightRgb(byte r, byte g, byte b);
+        IRgbLcdDisplay SetBacklightRgb(byte red, byte green, byte blue);
         IRgbLcdDisplay SetText(string text);
     }
 
@@ -33,15 +33,15 @@ namespace GrovePi.I2CDevices
         internal I2cDevice RgbDirectAccess { get; }
         internal I2cDevice TextDirectAccess { get; }
 
-        public IRgbLcdDisplay SetBacklightRgb(byte r, byte g, byte b)
+        public IRgbLcdDisplay SetBacklightRgb(byte red, byte green, byte blue)
         {
             //TODO: Find out what these addresses are for , set const.
             RgbDirectAccess.Write(new byte[] {0, 0});
             RgbDirectAccess.Write(new byte[] {1, 0});
             RgbDirectAccess.Write(new byte[] {0x08, 0xaa});
-            RgbDirectAccess.Write(new[] {RedCommandAddress, r});
-            RgbDirectAccess.Write(new[] {GreenCommandAddress, g});
-            RgbDirectAccess.Write(new[] {BlueCommandAddress, b});
+            RgbDirectAccess.Write(new[] {RedCommandAddress, red});
+            RgbDirectAccess.Write(new[] {GreenCommandAddress, green});
+            RgbDirectAccess.Write(new[] {BlueCommandAddress, blue});
             return this;
         }
 
