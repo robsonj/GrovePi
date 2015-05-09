@@ -4,11 +4,12 @@ namespace GrovePi.Sensors
 {
     public interface IChainableRgbLed
     {
-        IChainableRgbLed Initialise(int NumberOfLeds);
-        IChainableRgbLed StoreColor(int red, int green, int blue);
-        IChainableRgbLed Test(int NumberOfLeds, int TestColor);
-        IChainableRgbLed SetPattern(int Pattern, int Led);
-        IChainableRgbLed Mudulo(int Offset, int Divisor);
+        IChainableRgbLed Initialise(byte numberOfLeds);
+        IChainableRgbLed StoreColor(byte red, byte green, byte blue);
+        IChainableRgbLed Test(byte numberOfLeds, byte testColor);
+        IChainableRgbLed SetPattern(byte pattern, byte led);
+        IChainableRgbLed Mudulo(byte offset, byte divisor);
+        IChainableRgbLed SetLevel(byte level, bool reverse);
     }
 
     internal class ChainableRgbLed : IChainableRgbLed
@@ -29,44 +30,44 @@ namespace GrovePi.Sensors
             _pin = pin;
         }
 
-        public IChainableRgbLed Initialise(int NumberOfLeds)
+        public IChainableRgbLed SetLevel(byte level, bool reverse)
         {
-            var buffer = new byte[] {InitialiseCommandAddress, (byte) _pin, (byte) NumberOfLeds, Constants.Unused};
+            var buffer = new[] {level, (byte) _pin, level, reverse ? (byte) 1 : (byte) 0};
             _device.DirectAccess.Write(buffer);
             return this;
         }
 
-        public IChainableRgbLed StoreColor(int red, int green, int blue)
+        public IChainableRgbLed Initialise(byte numberOfLeds)
         {
-            var buffer = new[] {StoreColorCommandAddress, (byte) red, (byte) green, (byte) blue};
+            var buffer = new[] {InitialiseCommandAddress, (byte) _pin, numberOfLeds, Constants.Unused};
             _device.DirectAccess.Write(buffer);
             return this;
         }
 
-        public IChainableRgbLed Test(int NumberOfLeds, int TestColor)
+        public IChainableRgbLed StoreColor(byte red, byte green, byte blue)
         {
-            var buffer = new[] {TestCommandAddress, (byte) _pin, (byte) NumberOfLeds, (byte) TestColor};
+            var buffer = new[] {StoreColorCommandAddress, red, green, blue};
             _device.DirectAccess.Write(buffer);
             return this;
         }
 
-        public IChainableRgbLed SetPattern(int Pattern, int Led)
+        public IChainableRgbLed Test(byte numberOfLeds, byte testColor)
         {
-            var buffer = new[] {SetPatternCommandAddress, (byte) _pin, (byte) Pattern, (byte) Led};
+            var buffer = new[] {TestCommandAddress, (byte) _pin, numberOfLeds, testColor};
             _device.DirectAccess.Write(buffer);
             return this;
         }
 
-        public IChainableRgbLed Mudulo(int Offset, int Divisor)
+        public IChainableRgbLed SetPattern(byte pattern, byte led)
         {
-            var buffer = new[] {SetModuloCommandAddress, (byte) _pin, (byte) Offset, (byte) Divisor};
+            var buffer = new[] {SetPatternCommandAddress, (byte) _pin, pattern, led};
             _device.DirectAccess.Write(buffer);
             return this;
         }
 
-        public IChainableRgbLed SetLevel(int Level, bool Reverse)
+        public IChainableRgbLed Mudulo(byte offset, byte divisor)
         {
-            var buffer = new[] {(byte) Level, (byte) _pin, (byte) Level, Reverse ? (byte) 1 : (byte) 0};
+            var buffer = new[] {SetModuloCommandAddress, (byte) _pin, offset, divisor};
             _device.DirectAccess.Write(buffer);
             return this;
         }

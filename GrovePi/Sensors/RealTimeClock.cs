@@ -22,7 +22,7 @@ namespace GrovePi.Sensors
 
         public byte[] Read()
         {
-            var buffer = new byte[] { CommandAddress, (byte)_pin, Constants.Unused, Constants.Unused };
+            var buffer = new[] {CommandAddress, (byte) _pin, Constants.Unused, Constants.Unused};
             _device.DirectAccess.Write(buffer);
             _device.DirectAccess.Read(buffer);
             return buffer;

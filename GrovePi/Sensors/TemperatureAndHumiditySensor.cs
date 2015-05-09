@@ -17,8 +17,8 @@ namespace GrovePi.Sensors
     internal class TemperatureAndHumiditySensor : ITemperatureAndHumiditySensor
     {
         private readonly IGrovePi _device;
-        private readonly Pin _pin;
         private readonly Model _model;
+        private readonly Pin _pin;
 
         internal TemperatureAndHumiditySensor(IGrovePi device, Pin pin, Model model)
         {
@@ -30,9 +30,9 @@ namespace GrovePi.Sensors
 
         public double TemperatureInCelcius()
         {
-            var result = (double)_device.AnalogRead(_pin);
+            var result = (double) _device.AnalogRead(_pin);
             var resistance = (1023 - result)*10000/result;
-            return (float) (1/(Math.Log(resistance/10000)/(int) _model + 1/298.15) - 273.15);
+            return 1/(Math.Log(resistance/10000)/(int) _model + 1/298.15) - 273.15;
         }
     }
 }

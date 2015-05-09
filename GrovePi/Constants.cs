@@ -2,6 +2,6 @@
 {
     internal static class Constants
     {
-        public const int Unused = 0;
+        public const byte Unused = 0;
     }
 }
