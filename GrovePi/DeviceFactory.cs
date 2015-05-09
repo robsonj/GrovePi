@@ -24,6 +24,7 @@ namespace GrovePi
         IFourDigitDisplay BuildFourDigitDisplay(Pin pin);
         IChainableRgbLed ChainableRgbLed(Pin pin);
         IRotaryAngleSensor BuildRotaryAngleSensor(Pin pin);
+        IBuzzer BuildBuzzer(Pin pin);
     }
 
     internal class DeviceBuilder : IBuildGroveDevices
@@ -70,6 +71,11 @@ namespace GrovePi
         public IRotaryAngleSensor BuildRotaryAngleSensor(Pin pin)
         {
             return DoBuild(x => new RotaryAngleSensor(x, pin));
+        }
+
+        public IBuzzer BuildBuzzer(Pin pin)
+        {
+            return DoBuild(x => new Buzzer(x, pin));
         }
 
         public ILedBar BuildLedBar(Pin pin)

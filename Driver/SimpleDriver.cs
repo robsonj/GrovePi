@@ -18,6 +18,12 @@ namespace Driver
                 .TemperatureInCelcius();
 
             _deviceFactory
+                .BuildBuzzer(Pin.DigitalPin4)
+                .ChangeState(BuzzerStatus.On)
+                .ChangeState(BuzzerStatus.Off);
+            
+
+            _deviceFactory
                 .BuildLed(Pin.DigitalPin4)
                 .ChangeState(LedStatus.On)
                 .ChangeState(LedStatus.Off)
