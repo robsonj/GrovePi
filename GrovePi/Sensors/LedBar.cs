@@ -7,7 +7,7 @@ namespace GrovePi.Sensors
         ILedBar Initialize(Orientation orientation);
         ILedBar SetOrientation(Orientation orientation);
         ILedBar SetLevel(byte level);
-        ILedBar SetLed(byte level, byte led, State state);
+        ILedBar SetLed(byte level, byte led, SensorStatus state);
         ILedBar ToggleLed(byte led);
     }
 
@@ -53,7 +53,7 @@ namespace GrovePi.Sensors
             return this;
         }
 
-        public ILedBar SetLed(byte level, byte led, State state)
+        public ILedBar SetLed(byte level, byte led, SensorStatus state)
         {
             var buffer = new[] {SetOneCommandAddress, (byte) _pin, led, (byte) state};
             _device.DirectAccess.Write(buffer);
@@ -72,11 +72,5 @@ namespace GrovePi.Sensors
     {
         RedToGreen = 0,
         GreenToRed = 1
-    }
-
-    public enum State
-    {
-        On = 0,
-        Off = 1
     }
 }

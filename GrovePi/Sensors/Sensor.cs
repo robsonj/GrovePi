@@ -23,10 +23,4 @@ namespace GrovePi.Sensors
             return this as TSensorType;
         }
     }
-
-    public enum SensorStatus
-    {
-        Off = 0,
-        On = 1
-    }
 }
