@@ -13,7 +13,7 @@ namespace GrovePi.Sensors
         IFourDigitDisplay AllOff();
     }
 
-    public class FourDigitDisplay : IFourDigitDisplay
+    internal class FourDigitDisplay : IFourDigitDisplay
     {
         private const byte InitialiseCommandAddress = 70;
         private const byte BrightnessCommandAddress = 71;

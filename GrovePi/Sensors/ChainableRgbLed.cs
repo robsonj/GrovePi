@@ -11,7 +11,7 @@ namespace GrovePi.Sensors
         IChainableRgbLed Mudulo(int Offset, int Divisor);
     }
 
-    public class ChainableRgbLed : IChainableRgbLed
+    internal class ChainableRgbLed : IChainableRgbLed
     {
         public const byte StoreColorCommandAddress = 90;
         public const byte InitialiseCommandAddress = 91;

@@ -53,7 +53,7 @@
     <Compile Include="Sensors\ChainableRgbLed.cs" />
     <Compile Include="Sensors\FourDigitDisplay.cs" />
     <Compile Include="Sensors\LedBar.cs" />
-    <Compile Include="Sensors\RtcSensor.cs" />
+    <Compile Include="Sensors\RealTimeClock.cs" />
     <Compile Include="Sensors\TemperatureAndHumiditySensor.cs" />
     <Compile Include="Sensors\UltrasonicRangerSensor.cs" />
   </ItemGroup>

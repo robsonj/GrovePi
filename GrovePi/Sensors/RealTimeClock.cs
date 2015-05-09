@@ -2,18 +2,18 @@
 
 namespace GrovePi.Sensors
 {
-    public interface IRtcSensor
+    public interface IRealTimeClock
     {
         byte[] Read();
     }
 
-    internal class RtcSensor : IRtcSensor
+    internal class RealTimeClock : IRealTimeClock
     {
         private const byte CommandAddress = 30;
         private readonly GrovePi _device;
         private readonly Pin _pin;
 
-        internal RtcSensor(GrovePi device, Pin pin)
+        internal RealTimeClock(GrovePi device, Pin pin)
         {
             if (device == null) throw new ArgumentNullException(nameof(device));
             _device = device;
