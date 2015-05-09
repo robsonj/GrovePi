@@ -18,11 +18,12 @@ namespace GrovePi
         ILed BuildLed(Pin pin);
         ITemperatureAndHumiditySensor BuildTemperatureAndHumiditySensor(Pin pin, Model model);
         IUltrasonicRangerSensor BuildUltraSonicSensor(Pin pin);
-        IAccelerometerSensor BuildAccelerometer(Pin pin);
-        IRealTimeClock BuildRtcSensor(Pin pin);
-        ILedBar BuildLedBarSensor(Pin pin);
-        IFourDigitDisplay BuildFourDigitDisplaySensor(Pin pin);
+        IAccelerometerSensor BuildAccelerometerSensor(Pin pin);
+        IRealTimeClock BuildRealTimeClock(Pin pin);
+        ILedBar BuildLedBar(Pin pin);
+        IFourDigitDisplay BuildFourDigitDisplay(Pin pin);
         IChainableRgbLed ChainableRgbLed(Pin pin);
+        IRotaryAngleSensor BuildRotaryAngleSensor(Pin pin);
     }
 
     internal class DeviceBuilder : IBuildGroveDevices
@@ -56,22 +57,27 @@ namespace GrovePi
             return DoBuild(x => new UltrasonicRangerSensor(x, pin));
         }
 
-        public IAccelerometerSensor BuildAccelerometer(Pin pin)
+        public IAccelerometerSensor BuildAccelerometerSensor(Pin pin)
         {
             return DoBuild(x => new AccelerometerSensor(x, pin));
         }
 
-        public IRealTimeClock BuildRtcSensor(Pin pin)
+        public IRealTimeClock BuildRealTimeClock(Pin pin)
         {
             return DoBuild(x => new RealTimeClock(x, pin));
         }
 
-        public ILedBar BuildLedBarSensor(Pin pin)
+        public IRotaryAngleSensor BuildRotaryAngleSensor(Pin pin)
+        {
+            return DoBuild(x => new RotaryAngleSensor(x, pin));
+        }
+
+        public ILedBar BuildLedBar(Pin pin)
         {
             return DoBuild(x => new LedBar(x, pin));
         }
 
-        public IFourDigitDisplay BuildFourDigitDisplaySensor(Pin pin)
+        public IFourDigitDisplay BuildFourDigitDisplay(Pin pin)
         {
             return DoBuild(x => new FourDigitDisplay(x, pin));
         }
