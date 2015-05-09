@@ -4,11 +4,11 @@ namespace GrovePi.Sensors
 {
     public interface ILedBar
     {
-        void Initialize(Orientation orientation);
-        void SetOrientation(Orientation orientation);
-        void SetLevel(int level);
-        void SetLed(int level, int led, State state);
-        void ToggleLed(int led);
+        ILedBar Initialize(Orientation orientation);
+        ILedBar SetOrientation(Orientation orientation);
+        ILedBar SetLevel(int level);
+        ILedBar SetLed(int level, int led, State state);
+        ILedBar ToggleLed(int led);
     }
 
     internal class LedBar : ILedBar
@@ -31,35 +31,40 @@ namespace GrovePi.Sensors
             _pin = pin;
         }
 
-        public void Initialize(Orientation orientation)
+        public ILedBar Initialize(Orientation orientation)
         {
             var buffer = new byte[] {InitialiseCommandAddress, (byte) _pin, (byte) orientation, Constants.Unused};
             _device.DirectAccess.Write(buffer);
+            return this;
         }
 
-        public void SetOrientation(Orientation orientation)
+        public ILedBar SetOrientation(Orientation orientation)
         {
             var buffer = new byte[] {OrientationCommandAddress, (byte) _pin, (byte) orientation, Constants.Unused};
             _device.DirectAccess.Write(buffer);
+            return this;
         }
 
-        public void SetLevel(int level)
+        public ILedBar SetLevel(int level)
         {
             level = Math.Min(level, 10);
             var buffer = new byte[] {LevelCommandAddress, (byte) _pin, (byte) level, Constants.Unused};
             _device.DirectAccess.Write(buffer);
+            return this;
         }
 
-        public void SetLed(int level, int led, State state)
+        public ILedBar SetLed(int level, int led, State state)
         {
             var buffer = new[] {SetOneCommandAddress, (byte) _pin, (byte) led, (byte) state};
             _device.DirectAccess.Write(buffer);
+            return this;
         }
 
-        public void ToggleLed(int led)
+        public ILedBar ToggleLed(int led)
         {
             var buffer = new byte[] {ToggleOneCommandAddress, (byte) _pin, (byte) led, Constants.Unused};
             _device.DirectAccess.Write(buffer);
+            return this;
         }
     }
 

@@ -4,13 +4,13 @@ namespace GrovePi.Sensors
 {
     public interface IFourDigitDisplay
     {
-        void Initialise();
-        void SetBrightness(int brightness);
-        void SetIndividualSegment(int segment, int value);
-        void SetLedsOfSegment(int segment, int leds);
-        void SetScore(int left, int right);
-        void AllOn();
-        void AllOff();
+        IFourDigitDisplay Initialise();
+        IFourDigitDisplay SetBrightness(int brightness);
+        IFourDigitDisplay SetIndividualSegment(int segment, int value);
+        IFourDigitDisplay SetLedsOfSegment(int segment, int leds);
+        IFourDigitDisplay SetScore(int left, int right);
+        IFourDigitDisplay AllOn();
+        IFourDigitDisplay AllOff();
     }
 
     public class FourDigitDisplay : IFourDigitDisplay
@@ -36,47 +36,54 @@ namespace GrovePi.Sensors
             _pin = pin;
         }
 
-        public void Initialise()
+        public IFourDigitDisplay Initialise()
         {
             var buffer = new byte[] { InitialiseCommandAddress, (byte)_pin, Constants.Unused, Constants.Unused };
             _device.DirectAccess.Write(buffer);
+            return this;
         }
 
-        public void SetBrightness(int brightness)
+        public IFourDigitDisplay SetBrightness(int brightness)
         {
             brightness = Math.Min(brightness, 7);
             var buffer = new byte[] { InitialiseCommandAddress, (byte)_pin, (byte)brightness, Constants.Unused };
             _device.DirectAccess.Write(buffer);
+            return this;
         }
 
-        public void SetIndividualSegment(int segment, int value)
+        public IFourDigitDisplay SetIndividualSegment(int segment, int value)
         {
             var buffer = new byte[] { IndividualDigitCommandAddress, (byte)_pin, (byte)segment, (byte)value };
             _device.DirectAccess.Write(buffer);
+            return this;
         }
 
-        public void SetLedsOfSegment(int segment, int leds)
+        public IFourDigitDisplay SetLedsOfSegment(int segment, int leds)
         {
             var buffer = new byte[] { IndividualLedsCommandAddress, (byte)_pin, (byte)segment, (byte)leds };
             _device.DirectAccess.Write(buffer);
+            return this;
         }
 
-        public void SetScore(int left, int right)
+        public IFourDigitDisplay SetScore(int left, int right)
         {
             var buffer = new byte[] { ScoreCommandAddress, (byte)_pin, (byte)left, (byte)right };
             _device.DirectAccess.Write(buffer);
+            return this;
         }
 
-        public void AllOn()
+        public IFourDigitDisplay AllOn()
         {
             var buffer = new byte[] { AllOnCommandAddress, (byte)_pin, Constants.Unused, Constants.Unused };
             _device.DirectAccess.Write(buffer);
+            return this;
         }
 
-        public void AllOff()
+        public IFourDigitDisplay AllOff()
         {
             var buffer = new byte[] { AllOffCommandAddress, (byte)_pin, Constants.Unused, Constants.Unused };
             _device.DirectAccess.Write(buffer);
+            return this;
         }
     }
 }
