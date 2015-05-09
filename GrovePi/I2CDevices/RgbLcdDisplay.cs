@@ -5,7 +5,7 @@ namespace GrovePi.I2CDevices
 {
     public interface IRgbLcdDisplay
     {
-        IRgbLcdDisplay SetBacklightRgb(int r, int g, int b);
+        IRgbLcdDisplay SetBacklightRgb(byte r, byte g, byte b);
         IRgbLcdDisplay SetText(string text);
     }
 
@@ -14,7 +14,6 @@ namespace GrovePi.I2CDevices
         private const byte RedCommandAddress = 4;
         private const byte GreenCommandAddress = 3;
         private const byte BlueCommandAddress = 2;
-
         private const byte TextCommandAddress = 0x80;
         private const byte ClearDisplayCommandAddress = 0x01;
         private const byte DisplayOnCommandAddress = 0x08;
@@ -34,23 +33,23 @@ namespace GrovePi.I2CDevices
         internal I2cDevice RgbDirectAccess { get; }
         internal I2cDevice TextDirectAccess { get; }
 
-        public IRgbLcdDisplay SetBacklightRgb(int r, int g, int b)
+        public IRgbLcdDisplay SetBacklightRgb(byte r, byte g, byte b)
         {
             //TODO: Find out what these addresses are for , set const.
-            RgbDirectAccess.Write(new byte[] { 0, 0 });
-            RgbDirectAccess.Write(new byte[] { 1, 0 });
-            RgbDirectAccess.Write(new byte[] { 0x08, 0xaa });
-            RgbDirectAccess.Write(new byte[] { RedCommandAddress, (byte)r });
-            RgbDirectAccess.Write(new byte[] { GreenCommandAddress, (byte)g });
-            RgbDirectAccess.Write(new byte[] { BlueCommandAddress, (byte)b });
+            RgbDirectAccess.Write(new byte[] {0, 0});
+            RgbDirectAccess.Write(new byte[] {1, 0});
+            RgbDirectAccess.Write(new byte[] {0x08, 0xaa});
+            RgbDirectAccess.Write(new[] {RedCommandAddress, r});
+            RgbDirectAccess.Write(new[] {GreenCommandAddress, g});
+            RgbDirectAccess.Write(new[] {BlueCommandAddress, b});
             return this;
         }
 
         public IRgbLcdDisplay SetText(string text)
         {
-            TextDirectAccess.Write(new byte[] { TextCommandAddress, ClearDisplayCommandAddress });
-            TextDirectAccess.Write(new byte[] { TextCommandAddress, DisplayOnCommandAddress, NoCursorCommandAddress });
-            TextDirectAccess.Write(new byte[] { TextCommandAddress, TwoLinesCommandAddress, });
+            TextDirectAccess.Write(new[] {TextCommandAddress, ClearDisplayCommandAddress});
+            TextDirectAccess.Write(new[] {TextCommandAddress, DisplayOnCommandAddress, NoCursorCommandAddress});
+            TextDirectAccess.Write(new[] {TextCommandAddress, TwoLinesCommandAddress});
 
             var count = 0;
             var row = 0;
@@ -68,7 +67,7 @@ namespace GrovePi.I2CDevices
                         continue;
                 }
                 count += 1;
-                TextDirectAccess.Write(new byte[] {TextCommandAddress, SetCharacterCommandAddress, (byte) c});
+                TextDirectAccess.Write(new[] {TextCommandAddress, SetCharacterCommandAddress, (byte) c});
             }
 
             return this;
