@@ -53,6 +53,11 @@ namespace GrovePi
             return BuildRgbLcdDisplayImpl(rgbAddress, textAddress);
         }
 
+        public IRgbLcdDisplay RgbLcdDisplay()
+        {
+            return BuildRgbLcdDisplayImpl(DisplayRgbI2CAddress, DisplayTextI2CAddress);
+        }
+
         public ILed BuildLed(Pin pin)
         {
             return DoBuild(x => new Led(x, pin));
