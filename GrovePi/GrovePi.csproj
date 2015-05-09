@@ -43,7 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
-    <Compile Include="DeviceBuilder.cs" />
+    <Compile Include="DeviceFactory.cs" />
     <Compile Include="GrovePi.cs" />
     <Compile Include="Sensors\Led.cs" />
     <Compile Include="Pin.cs" />

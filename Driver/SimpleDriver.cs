@@ -9,7 +9,6 @@ namespace Driver
     {
         public void Run(IBackgroundTaskInstance taskInstance)
         {
-            LedBlink(DeviceBuilder.BuildLed(Pin.DigitalPin4), 50, 250);
         }
 
         private static void LedBlink(ILed device, int durationInSeconds, int frequencyInMillseconds)
