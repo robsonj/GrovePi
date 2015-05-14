@@ -10,13 +10,12 @@ namespace Driver
 
         public void Run(IBackgroundTaskInstance taskInstance)
         {
+            //**Samples using the device factor. Un comment as needed**
+
             //var distance = _deviceFactory
             //    .BuildUltraSonicSensor(Pin.DigitalPin2)
             //    .MeasureInCentimeters();
 
-            var tempInCelcius = _deviceFactory
-                .BuildTemperatureAndHumiditySensor(Pin.DigitalPin2, Model.OnePointTwo)
-                .TemperatureInCelcius();
             //_deviceFactory.BuildBuzzer(Pin.DigitalPin2).ChangeState(SensorStatus.On);
 
             //var level = _deviceFactory.BuildLightSensor(Pin.DigitalPin3)
