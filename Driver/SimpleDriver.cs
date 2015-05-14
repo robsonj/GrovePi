@@ -13,16 +13,18 @@ namespace Driver
             //var distance = _deviceFactory
             //    .BuildUltraSonicSensor(Pin.DigitalPin2)
             //    .MeasureInCentimeters();
-            //var tempInCelcius = _deviceFactory
-            //    .BuildTemperatureAndHumiditySensor(Pin.DigitalPin3, Model.OnePointTwo)
-            //    .TemperatureInCelcius();
 
-            var level = _deviceFactory.BuildLightSensor(Pin.DigitalPin3)
-                .SensorValue();
-            _deviceFactory
-                .BuildBuzzer(Pin.DigitalPin4)
-                .ChangeState(SensorStatus.On)
-                .ChangeState(SensorStatus.Off);
+            var tempInCelcius = _deviceFactory
+                .BuildTemperatureAndHumiditySensor(Pin.DigitalPin2, Model.OnePointTwo)
+                .TemperatureInCelcius();
+            //_deviceFactory.BuildBuzzer(Pin.DigitalPin2).ChangeState(SensorStatus.On);
+
+            //var level = _deviceFactory.BuildLightSensor(Pin.DigitalPin3)
+            //    .SensorValue();
+            //_deviceFactory
+            //    .BuildBuzzer(Pin.DigitalPin4)
+            //    .ChangeState(SensorStatus.On)
+            //    .ChangeState(SensorStatus.Off);
         }
     }
 }

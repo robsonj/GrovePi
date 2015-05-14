@@ -26,7 +26,12 @@ namespace GrovePi
         IChainableRgbLed ChainableRgbLed(Pin pin);
         IRotaryAngleSensor BuildRotaryAngleSensor(Pin pin);
         IBuzzer BuildBuzzer(Pin pin);
+        ISoundSensor BuildSoundSensor(Pin pin);
         ILightSensor BuildLightSensor(Pin pin);
+        IButtonSensor BuildButtonSensor(Pin pin);
+        IRgbLcdDisplay RgbLcdDisplay();
+        IRgbLcdDisplay RgbLcdDisplay(int rgbAddress, int textAddress);
+        
     }
 
     internal class DeviceBuilder : IBuildGroveDevices
@@ -81,6 +86,11 @@ namespace GrovePi
         public IBuzzer BuildBuzzer(Pin pin)
         {
             return DoBuild(x => new Buzzer(x, pin));
+        }
+
+        public ISoundSensor BuildSoundSensor(Pin pin)
+        {
+            return DoBuild(x => new SoundSensor(x, pin));
         }
 
         public ILedBar BuildLedBar(Pin pin)
