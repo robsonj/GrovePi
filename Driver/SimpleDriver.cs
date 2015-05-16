@@ -20,7 +20,7 @@ namespace Driver
             //var distance = _deviceFactory
             //    .BuildUltraSonicSensor(Pin.DigitalPin2)
             //    .MeasureInCentimeters();
-
+            _deviceFactory.RgbLcdDisplay().SetText("Hello World").SetBacklightRgb(0, 255, 255);
             //_deviceFactory.BuildBuzzer(Pin.DigitalPin2).ChangeState(SensorStatus.On);
 
             //        var tempInCelcius = _deviceFactory
