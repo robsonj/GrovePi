@@ -24,10 +24,10 @@ namespace GrovePi.I2CDevices
         internal RgbLcdDisplay(I2cDevice rgbDevice, I2cDevice textDevice)
         {
             if (rgbDevice == null) throw new ArgumentNullException(nameof(rgbDevice));
-            if (textDevice == null) throw new ArgumentNullException(nameof(rgbDevice));
+            if (textDevice == null) throw new ArgumentNullException(nameof(textDevice));
 
             RgbDirectAccess = rgbDevice;
-            TextDirectAccess = TextDirectAccess;
+            TextDirectAccess = textDevice;
         }
 
         internal I2cDevice RgbDirectAccess { get; }
@@ -38,7 +38,7 @@ namespace GrovePi.I2CDevices
             //TODO: Find out what these addresses are for , set const.
             RgbDirectAccess.Write(new byte[] {0, 0});
             RgbDirectAccess.Write(new byte[] {1, 0});
-            RgbDirectAccess.Write(new byte[] {0x08, 0xaa});
+            RgbDirectAccess.Write(new byte[] { DisplayOnCommandAddress, 0xaa});
             RgbDirectAccess.Write(new[] {RedCommandAddress, red});
             RgbDirectAccess.Write(new[] {GreenCommandAddress, green});
             RgbDirectAccess.Write(new[] {BlueCommandAddress, blue});

@@ -45,7 +45,7 @@ namespace GrovePi.Sensors
         public IFourDigitDisplay SetBrightness(byte brightness)
         {
             brightness = Math.Min(brightness, (byte) 7);
-            var buffer = new[] {InitialiseCommandAddress, (byte) _pin, brightness, Constants.Unused};
+            var buffer = new[] { BrightnessCommandAddress, (byte) _pin, brightness, Constants.Unused};
             _device.DirectAccess.Write(buffer);
             return this;
         }

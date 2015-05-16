@@ -58,9 +58,11 @@
     <Compile Include="Sensors\LedBar.cs" />
     <Compile Include="Sensors\LightSensor.cs" />
     <Compile Include="Sensors\RealTimeClock.cs" />
+    <Compile Include="Sensors\Relay.cs" />
     <Compile Include="Sensors\RotaryAngleSensor.cs" />
     <Compile Include="Sensors\Sensor.cs" />
     <Compile Include="Sensors\SensorStatus.cs" />
+    <Compile Include="Sensors\SoundSensor.cs" />
     <Compile Include="Sensors\TemperatureAndHumiditySensor.cs" />
     <Compile Include="Sensors\UltrasonicRangerSensor.cs" />
   </ItemGroup>

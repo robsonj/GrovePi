@@ -16,6 +16,7 @@ namespace GrovePi
     {
         IGrovePi BuildGrovePi();
         IGrovePi BuildGrovePi(int address);
+        IRelay BuildRelay(Pin pin);
         ILed BuildLed(Pin pin);
         ITemperatureAndHumiditySensor BuildTemperatureAndHumiditySensor(Pin pin, Model model);
         IUltrasonicRangerSensor BuildUltraSonicSensor(Pin pin);
@@ -26,7 +27,12 @@ namespace GrovePi
         IChainableRgbLed ChainableRgbLed(Pin pin);
         IRotaryAngleSensor BuildRotaryAngleSensor(Pin pin);
         IBuzzer BuildBuzzer(Pin pin);
+        ISoundSensor BuildSoundSensor(Pin pin);
         ILightSensor BuildLightSensor(Pin pin);
+        IButtonSensor BuildButtonSensor(Pin pin);
+        IRgbLcdDisplay RgbLcdDisplay();
+        IRgbLcdDisplay RgbLcdDisplay(int rgbAddress, int textAddress);
+        
     }
 
     internal class DeviceBuilder : IBuildGroveDevices
@@ -46,6 +52,11 @@ namespace GrovePi
         public IGrovePi BuildGrovePi(int address)
         {
             return BuildGrovePiImpl(address);
+        }
+
+        public IRelay BuildRelay(Pin pin)
+        {
+            return DoBuild(x => new Relay(x, pin));
         }
 
         public ILed BuildLed(Pin pin)
@@ -81,6 +92,11 @@ namespace GrovePi
         public IBuzzer BuildBuzzer(Pin pin)
         {
             return DoBuild(x => new Buzzer(x, pin));
+        }
+
+        public ISoundSensor BuildSoundSensor(Pin pin)
+        {
+            return DoBuild(x => new SoundSensor(x, pin));
         }
 
         public ILedBar BuildLedBar(Pin pin)
@@ -126,7 +142,7 @@ namespace GrovePi
 
         private GrovePi BuildGrovePiImpl(int address)
         {
-            if (null != _device)
+            if (_device != null)
             {
                 return _device;
             }
