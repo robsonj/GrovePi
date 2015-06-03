@@ -7,10 +7,10 @@ Below are some simple examples of how to use the library.
 All supported sensors are available through the DeviceFactory.
 
 ######Measure Distance
-Ultra sonic sensor plugged in to digital pin 2 (D2)
+Ultra sonic sensor plugged into digital pin 2 (D2)
 <p>
 <code>
-  var distance = DeviceFactory.Build.BuildUltraSonicSensor(Pin.DigitalPin2).MeasureInCentimeters();
+  var distance = DeviceFactory.Build.UltraSonicSensor(Pin.DigitalPin2).MeasureInCentimeters();
 </code>
 </p>
 
@@ -20,6 +20,9 @@ Ultra sonic sensor plugged in to digital pin 2 (D2)
 </code>
 
 ######Sound the buzzer!
+Sound the buzzer plugged into digital pin 2 (D2)
+<p>
 <code>
-  DeviceFactory.Build.BuildBuzzer(Pin.DigitalPin2).ChangeState(SensorStatus.On);
+  DeviceFactory.Build.Buzzer(Pin.DigitalPin2).ChangeState(SensorStatus.On);
 </code>
+</p>
