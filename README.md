@@ -10,23 +10,16 @@ All supported sensors are available through the DeviceFactory.
 Ultra sonic sensor plugged in to digital pin 2 (D2)
 <p>
 <code>
-  var distance = DeviceFactory.Build
-    .BuildUltraSonicSensor(Pin.DigitalPin2)
-    .MeasureInCentimeters();
+  var distance = DeviceFactory.Build.BuildUltraSonicSensor(Pin.DigitalPin2).MeasureInCentimeters();
 </code>
 </p>
 
 ######Display Hello World
 <code>
-  DeviceFactory.Build
-    .RgbLcdDisplay()
-    .SetText("Hello World")
-    .SetBacklightRgb(0, 255, 255);
+  DeviceFactory.Build.RgbLcdDisplay().SetText("Hello World").SetBacklightRgb(0, 255, 255);
 </code>
 
 ######Sound the buzzer!
 <code>
-  DeviceFactory.Build
-    .BuildBuzzer(Pin.DigitalPin2)
-    .ChangeState(SensorStatus.On);
+  DeviceFactory.Build.BuildBuzzer(Pin.DigitalPin2).ChangeState(SensorStatus.On);
 </code>
