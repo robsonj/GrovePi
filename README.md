@@ -3,10 +3,27 @@ Windows 10 IoT C# driver library for GrovePi
 
 The NuGet package for the current release is available [here](https://www.nuget.org/packages/GrovePi/).
 
+All supported sensors are available through the DeviceFactory class.
+
+Supported sensors include:
+- Relay
+- Led
+- TemperatureAndHumiditySensor
+- UltraSonicSensor
+- AccelerometerSensor
+- RealTimeClock
+- BuildLedBar
+- FourDigitDisplay
+- ChainableRgbLed
+- RotaryAngleSensor
+- Buzzer
+- SoundSensor
+- LightSensor
+- ButtonSensor
+- RgbLcdDisplay
+
 #####Examples
 Below are some simple examples of how to use the library.
-
-All supported sensors are available through the DeviceFactory.
 
 ######Measure Distance
 Ultra sonic sensor plugged into digital pin 2 (D2)
