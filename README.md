@@ -1,6 +1,8 @@
 # GrovePi
 Windows 10 IoT C# driver library for GrovePi
 
+The NuGet package for the current release is available [here](https://www.nuget.org/packages/GrovePi/).
+
 #####Examples
 Below are some simple examples of how to use the library.
 
