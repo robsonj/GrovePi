@@ -1,26 +1,58 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GrovePi.Sensors
 {
+
+    public class TemperatureAndHumiditySensorValue
+    {
+        private float temperature;
+        public float Temperature
+        {
+            get
+            {
+                return temperature;
+            }
+        }
+
+        private float humidity;
+        public float Humidity
+        {
+            get
+            {
+                return humidity;
+            }
+        }
+
+        public TemperatureAndHumiditySensorValue(float temperature, float humidity)
+        {
+            this.temperature = temperature;
+            this.humidity = humidity;
+        }
+    }
+
     public interface ITemperatureAndHumiditySensor
     {
-        double TemperatureInCelcius();
+        TemperatureAndHumiditySensorValue TemperatureAndHumidity();
     }
 
     public enum Model
     {
-        OnePointZero = 3975,
-        OnePointOne = 4250,
-        OnePointTwo = 4250
+        ZERO,
+        ONE,
+        TWO
     }
 
     internal class TemperatureAndHumiditySensor : ITemperatureAndHumiditySensor
     {
-        private readonly IGrovePi _device;
+        private readonly GrovePi _device;
         private readonly Model _model;
         private readonly Pin _pin;
 
-        internal TemperatureAndHumiditySensor(IGrovePi device, Pin pin, Model model)
+        internal TemperatureAndHumiditySensor(GrovePi device, Pin pin, Model model)
         {
             if (device == null) throw new ArgumentNullException(nameof(device));
             _device = device;
@@ -28,11 +60,24 @@ namespace GrovePi.Sensors
             _model = model;
         }
 
-        public double TemperatureInCelcius()
+        public TemperatureAndHumiditySensorValue TemperatureAndHumidity()
         {
-            var result = (double) _device.AnalogRead(_pin);
-            var resistance = (1023 - result)*10000/result;
-            return 1/(Math.Log(resistance/10000)/(int) _model + 1/298.15) - 273.15;
+            var buffer = new[] { (byte)40, (byte)_pin, (byte)_model, Constants.Unused };
+            _device.DirectAccess.Write(buffer);
+
+            // sleep
+            //Task.Delay(100).Wait();
+            Task.Delay(600).Wait();
+
+            buffer = new byte[9];
+            _device.DirectAccess.Read(buffer);
+            
+            float temperature = System.BitConverter.ToSingle(buffer, 1);
+            float humidity = System.BitConverter.ToSingle(buffer, 5);
+
+            return new TemperatureAndHumiditySensorValue(temperature, humidity);
+
         }
+        
     }
 }
