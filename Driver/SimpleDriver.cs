@@ -24,8 +24,8 @@ namespace Driver
             _deviceFactory.Buzzer(Pin.DigitalPin2).ChangeState(SensorStatus.On);
 
             var tempInCelcius = _deviceFactory
-    .TemperatureAndHumiditySensor(Pin.DigitalPin2, Model.OnePointTwo)
-    .TemperatureInCelcius();
+                .TemperatureAndHumiditySensor(Pin.DigitalPin2, TemperatureAndHumiditySensorModel.DHT11)
+                .TemperatureAndHumidity();
 
             var level = _deviceFactory.LightSensor(Pin.DigitalPin3)
                 .SensorValue();
