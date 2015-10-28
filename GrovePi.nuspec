@@ -16,8 +16,8 @@
         <tags>iot, grovepi, windows, arm</tags>
     </metadata>
     <files>
-        <file src="lib\GrovePi.dll" target="lib\GrovePi.dll" />
-        <file src="lib\GrovePi.pdb" target="lib\GrovePi.pdb" />
-        <file src="lib\GrovePi.pri" target="lib\GrovePi.pri" />
+        <file src="GrovePi\bin\ARM\Release\GrovePi.dll" target="lib\uap10.0\GrovePi.dll" />
+        <file src="GrovePi\bin\ARM\Release\GrovePi.pdb" target="lib\uap10.0\GrovePi.pdb" />
+        <file src="GrovePi\bin\ARM\Release\GrovePi.pri" target="lib\uap10.0\GrovePi.pri" />
     </files>
 </package>
